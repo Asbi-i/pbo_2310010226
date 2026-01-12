@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8a3d6e51-b006-4719-9743-5fe70ed757e6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM konsumen;]]>
+	</queryString>
+	<field name="id_konsumen" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="alamat" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="id_konsumen">
+		<groupExpression><![CDATA[$F{id_konsumen}]]></groupExpression>
+	</group>
+	<group name="nama">
+		<groupExpression><![CDATA[$F{nama}]]></groupExpression>
+	</group>
+	<group name="alamat">
+		<groupExpression><![CDATA[$F{alamat}]]></groupExpression>
+	</group>
+	<group name="telp">
+		<groupExpression><![CDATA[$F{telp}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="148" y="23" width="287" height="35" uuid="3b9e8803-936a-4054-803d-b7edc3e79395"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Konsumen]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="31" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="73" y="21" width="100" height="20" uuid="96404baf-f514-45c6-94ba-7fa3d8a7fff5"/>
+				<text><![CDATA[ID Konsumen]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="21" width="100" height="20" uuid="305f4c44-05a7-4a33-a848-e4389f6591af"/>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="21" width="100" height="20" uuid="cfed3fac-4753-41ba-9a10-e596c05fff47"/>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="21" width="100" height="20" uuid="2e3dbcd8-ff54-45ec-8979-6f89591d58ca"/>
+				<text><![CDATA[Telpon]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="73" y="14" width="100" height="20" uuid="54eb73f6-da28-4e1c-bf9a-4fcff7bffbbe"/>
+				<textFieldExpression><![CDATA[$F{id_konsumen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="14" width="100" height="20" uuid="f54bc5d6-be3e-45b2-9bea-f78fad5d5a5b"/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="13" width="100" height="20" uuid="19d62b56-4369-41ea-a432-28315f06cdae"/>
+				<textFieldExpression><![CDATA[$F{alamat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="13" width="100" height="20" uuid="1bb1b36c-789a-4e6f-83e9-9ab43d69c1be"/>
+				<textFieldExpression><![CDATA[$F{telp}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

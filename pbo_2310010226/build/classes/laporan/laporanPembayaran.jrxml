@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5f0d4094-42f2-4646-8662-90ca2fb83fa2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM pembayaran;]]>
+	</queryString>
+	<field name="id_pembayaran" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jenis_pembayaran" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipe" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="id_pembayaran">
+		<groupExpression><![CDATA[$F{id_pembayaran}]]></groupExpression>
+	</group>
+	<group name="jenis_pembayaran">
+		<groupExpression><![CDATA[$F{jenis_pembayaran}]]></groupExpression>
+	</group>
+	<group name="tipe">
+		<groupExpression><![CDATA[$F{tipe}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="161" y="17" width="287" height="35" uuid="4a736ba7-3b6b-401d-95e9-2f099a21b720"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Metode Pembayaran]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="94" y="22" width="100" height="20" uuid="adf32353-3864-49a9-8604-0037203c9b1d"/>
+				<text><![CDATA[ID Pembayaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="22" width="100" height="20" uuid="8b59556d-5996-43c3-89cb-395a6442777a"/>
+				<text><![CDATA[Jenis Pembayaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="22" width="100" height="20" uuid="99ec8cdc-9bff-47c0-80cd-dec7fabbd1d6"/>
+				<text><![CDATA[Tipe Pembayaran]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="39" splitType="Stretch">
+			<textField>
+				<reportElement x="94" y="13" width="100" height="20" uuid="ad06a828-1ce6-45b1-88f8-47bd5a02a5f1"/>
+				<textFieldExpression><![CDATA[$F{id_pembayaran}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="234" y="13" width="100" height="20" uuid="f9dd1174-006b-4276-a4cf-b609933bd949"/>
+				<textFieldExpression><![CDATA[$F{jenis_pembayaran}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="13" width="100" height="20" uuid="15ab3f18-6e9f-4894-ab66-33e7719a2904"/>
+				<textFieldExpression><![CDATA[$F{tipe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

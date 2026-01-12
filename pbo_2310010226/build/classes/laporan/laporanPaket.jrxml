@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="78c2cf84-2406-42ef-a4a2-47631f0e6ff5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM paket;]]>
+	</queryString>
+	<field name="id_paket" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nama" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="harga" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="durasi" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="133" y="22" width="287" height="35" uuid="41c5211e-2691-427a-8f51-12d520add0c3"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Paket]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement x="162" y="17" width="100" height="20" uuid="56570635-f20a-4554-85ce-148f66846dfe"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="17" width="100" height="20" uuid="860f6036-9765-4243-bf08-9c7d9fd6681f"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[ID Paket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="17" width="100" height="20" uuid="cbadd7da-0865-41fb-b777-75d707cbf3ca"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Harga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="17" width="100" height="20" uuid="f6c3e2c6-a080-46fc-a5b8-a0724051042e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Durasi]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="274" y="14" width="100" height="20" uuid="ea445da5-365c-4302-bcf4-9476dcc209fa"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{harga}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="14" width="100" height="20" uuid="38466b60-0a19-4fdc-b477-843f17b12401"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="14" width="100" height="20" uuid="97a1b606-db34-4997-8c12-70b64da6fff4"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{durasi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="14" width="100" height="20" uuid="1b3b285c-0b24-443f-8c21-e9277e574c79"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id_paket}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
