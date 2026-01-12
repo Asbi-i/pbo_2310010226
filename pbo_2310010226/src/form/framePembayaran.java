@@ -43,13 +43,14 @@ public class framePembayaran extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtJenis = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtRekening = new javax.swing.JTextField();
+        txtTipe = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelPembayaran = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
+        btnCetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -57,7 +58,7 @@ public class framePembayaran extends javax.swing.JFrame {
 
         jLabel2.setText("Jenis Pembayaran");
 
-        jLabel3.setText("Rekening Pembayaran");
+        jLabel3.setText("Tipe Pembayaran");
 
         btnSimpan.setText("Simpan");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
@@ -104,22 +105,17 @@ public class framePembayaran extends javax.swing.JFrame {
             }
         });
 
+        btnCetak.setText("Cetak");
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtJenis, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                    .addComponent(txtRekening, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                    .addComponent(txtId))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -127,13 +123,28 @@ public class framePembayaran extends javax.swing.JFrame {
                     .addComponent(txtCari))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
-                .addComponent(btnSimpan)
-                .addGap(18, 18, 18)
-                .addComponent(btnUbah)
-                .addGap(18, 18, 18)
-                .addComponent(btnHapus)
-                .addGap(83, 83, 83))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtJenis, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                            .addComponent(txtTipe, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                            .addComponent(txtId)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(btnSimpan)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUbah)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHapus)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCetak)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,12 +160,13 @@ public class framePembayaran extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtRekening, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTipe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUbah)
                     .addComponent(btnHapus)
-                    .addComponent(btnSimpan))
+                    .addComponent(btnSimpan)
+                    .addComponent(btnCetak))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
@@ -170,10 +182,10 @@ public class framePembayaran extends javax.swing.JFrame {
         try {
             objectKu.simpanPembayaranPRT(txtId.getText(),
                 txtJenis.getText(),
-                txtRekening.getText());
+                txtTipe.getText());
             if (objectKu.validasi){
                 txtJenis.setText(objectKu.var_jenis);
-                txtRekening.setText(objectKu.var_rekening);
+                txtTipe.setText(objectKu.var_tipe);
             }
             objectKu.loadDataPembayaran(tabelPembayaran, "SELECT * FROM Pembayaran");
         } catch (Exception e) {
@@ -190,7 +202,7 @@ public class framePembayaran extends javax.swing.JFrame {
         
         txtId.setText(id);
         txtJenis.setText(jenis);
-        txtRekening.setText(rekening);
+        txtTipe.setText(rekening);
         objectKu.loadDataPembayaran(tabelPembayaran, "SELECT * FROM Pembayaran");
     }//GEN-LAST:event_tabelPembayaranMouseClicked
 
@@ -200,14 +212,14 @@ public class framePembayaran extends javax.swing.JFrame {
             if (
                 txtId.getText().isEmpty() ||
                 txtJenis.getText().isEmpty() ||
-                txtRekening.getText().isEmpty()
+                txtTipe.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelPembayaran.requestFocus();
         } else {
                 objectKu.ubahPembayaranPRS(txtId.getText(), 
                 txtJenis.getText(), 
-                txtRekening.getText());
+                txtTipe.getText());
                 objectKu.loadDataPembayaran(tabelPembayaran, "SELECT * FROM Pembayaran");
         }
         } catch (Exception e) {
@@ -220,7 +232,7 @@ public class framePembayaran extends javax.swing.JFrame {
             if (
                 txtId.getText().isEmpty() ||
                 txtJenis.getText().isEmpty() ||
-                txtRekening.getText().isEmpty()
+                txtTipe.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelPembayaran.requestFocus();
@@ -228,7 +240,7 @@ public class framePembayaran extends javax.swing.JFrame {
                 objectKu.hapusPembayaranPRT(txtId.getText());
                 txtId.setText(null);
                 txtJenis.setText(null);
-                txtRekening.setText(null);
+                txtTipe.setText(null);
                 objectKu.loadDataPembayaran(tabelPembayaran, "SELECT * FROM Pembayaran");
         }
         } catch (Exception e) {
@@ -240,12 +252,17 @@ public class framePembayaran extends javax.swing.JFrame {
         try {
             String c = txtCari.getText();
             String cari = "SELECT * FROM Pembayaran WHERE id_pembayaran like '%%"+c+"' "+
-                    "or jenis_pembayaran like '%%"+c+"' or rekening_pembayaran like '%%"+c+"'";
+                    "or jenis_pembayaran like '%%"+c+"' or tipe like '%%"+c+"'";
             objectKu.loadDataPembayaran(tabelPembayaran, cari);
         } catch (Exception e) {
             System.out.println("form.framePembayaran.txtCariKeyReleased()");
         }
     }//GEN-LAST:event_txtCariKeyReleased
+
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        // TODO add your handling code here:
+        objectKu.cetakLaporan("/laporan/laporanPembayaran.jrxml", "SELECT * FROM pembayaran");
+    }//GEN-LAST:event_btnCetakActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,6 +300,7 @@ public class framePembayaran extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
@@ -294,6 +312,6 @@ public class framePembayaran extends javax.swing.JFrame {
     private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtJenis;
-    private javax.swing.JTextField txtRekening;
+    private javax.swing.JTextField txtTipe;
     // End of variables declaration//GEN-END:variables
 }

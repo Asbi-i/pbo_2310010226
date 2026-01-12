@@ -21,13 +21,107 @@ public class frameTransaksi extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         objectKu = new crud();
+        loadComboKasir();
+        loadComboKonsumen();
+        loadComboPaket();
+        loadComboPembayaran();
         dataTransaksi(tabelTransaksi);
-        objectKu.loadDataTransaksi(tabelTransaksi, "SELECT * FROM Transaksi");
+        objectKu.loadDataTransaksi(tabelTransaksi);
     }
+    
+    private void loadComboKasir() {
+    try {
+        String sql = "SELECT id_kasir, nama FROM kasir";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        jComboBoxKasir.removeAllItems();
+
+        while (rs.next()) {
+            jComboBoxKasir.addItem(
+                rs.getString("id_kasir") + " - " + rs.getString("nama")
+            );
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+    private void loadComboKonsumen() {
+    try {
+        String sql = "SELECT id_konsumen, nama FROM konsumen";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        jComboBox2.removeAllItems();
+
+        while (rs.next()) {
+            jComboBox2.addItem(
+                rs.getString("id_konsumen") + " - " + rs.getString("nama")
+            );
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+    private void loadComboPaket() {
+    try {
+        String sql = "SELECT * FROM paket";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        if (rs == null) return;
+
+        jComboBox3.removeAllItems();
+        jComboBox3.addItem("-- Pilih Paket --");
+        while (rs.next()) {
+            jComboBox3.addItem(
+                rs.getString(1) + " - " + rs.getString(2)
+            );
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+
+    private void loadComboPembayaran() {
+    try {
+        String sql = "SELECT * FROM pembayaran";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        if (rs == null) return;
+
+        jComboBox4.removeAllItems();
+
+        while (rs.next()) {
+            jComboBox4.addItem(
+                rs.getString(1) + " - " + rs.getString(2)
+            );
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+
+
+
     
     public void dataTransaksi(JTable tabel){
         this.tabel = tabel;
     }
+    
+    private void loadKasir() {
+    try {
+        jComboBoxKasir.removeAllItems();
+        String sql = "SELECT id_kasir, nama FROM kasir";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        while (rs.next()) {
+            jComboBoxKasir.addItem(
+                rs.getString("id_kasir") + " - " + rs.getString("nama")
+            );
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,18 +136,14 @@ public class frameTransaksi extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtTransaksi = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtKasir = new javax.swing.JTextField();
-        txtPaket = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtKonsumen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtPembayaran = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtKeterangan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtUnit = new javax.swing.JTextField();
+        txtDurasi = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtTglTransaksi = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -65,6 +155,11 @@ public class frameTransaksi extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelTransaksi = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
+        btnCetak = new javax.swing.JButton();
+        jComboBoxKasir = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
 
         jCheckBoxMenuItem1.setSelected(true);
         jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
@@ -81,17 +176,11 @@ public class frameTransaksi extends javax.swing.JFrame {
 
         jLabel5.setText("Pembayaran");
 
-        txtPembayaran.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPembayaranActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("Total");
 
         jLabel8.setText("Keterangan");
 
-        jLabel9.setText("Unit");
+        jLabel9.setText("Durasi");
 
         jLabel11.setText("Tgl Transaksi");
 
@@ -126,7 +215,7 @@ public class frameTransaksi extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID Transaksi", "Kasir", "Tgl Transaksi", "Konsumen", "Paket", "Keterangan", "Pembayaran", "Unit", "Total", "Tgl Ambil"
+                "ID Transaksi", "Kasir", "Tgl Transaksi", "Konsumen", "Paket", "Keterangan", "Pembayaran", "Durasi", "Total", "Tgl Ambil"
             }
         ));
         tabelTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,73 +225,107 @@ public class frameTransaksi extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelTransaksi);
 
+        txtCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariActionPerformed(evt);
+            }
+        });
         txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCariKeyReleased(evt);
             }
         });
 
+        btnCetak.setText("Cetak");
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakActionPerformed(evt);
+            }
+        });
+
+        jComboBoxKasir.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxKasir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxKasirActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPaket, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtKonsumen, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(txtKasir, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtTglTransaksi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel5))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCari)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtTglAmbil, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(43, 43, 43)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(45, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtTglTransaksi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxKasir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtTglAmbil, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGap(43, 43, 43)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtDurasi, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 39, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnSimpan)
                 .addGap(56, 56, 56)
                 .addComponent(btnUbah)
                 .addGap(56, 56, 56)
                 .addComponent(btnHapus)
-                .addGap(147, 147, 147))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCari))
-                .addContainerGap())
+                .addGap(56, 56, 56)
+                .addComponent(btnCetak)
+                .addGap(104, 104, 104))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,41 +337,40 @@ public class frameTransaksi extends javax.swing.JFrame {
                             .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtKasir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxKasir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtKonsumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtTglTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(28, 28, 28)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPaket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(56, 56, 56)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel12)
-                                    .addComponent(txtTglAmbil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtTglAmbil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtDurasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -257,8 +379,9 @@ public class frameTransaksi extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSimpan)
                     .addComponent(btnUbah)
-                    .addComponent(btnHapus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnHapus)
+                    .addComponent(btnCetak))
+                .addGap(12, 12, 12)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -268,38 +391,31 @@ public class frameTransaksi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPembayaranActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPembayaranActionPerformed
-
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         // TODO add your handling code here:
         try {
-            objectKu.simpanTransaksiPRT(txtTransaksi.getText(),
-                txtKasir.getText(),
-                txtPaket.getText(),
-                txtKonsumen.getText(),
-                txtPembayaran.getText(),
-                txtTglTransaksi.getText(),
-                txtTglAmbil.getText(),
-                txtTotal.getText(),
-                txtKeterangan.getText(),
-                txtUnit.getText());
-            if (objectKu.validasi){
-                txtKasir.setText(objectKu.var_kasir);
-                txtPaket.setText(objectKu.var_paket);
-                txtKonsumen.setText(objectKu.var_konsumen);
-                txtPembayaran.setText(objectKu.var_pembayaran);
-                txtTglTransaksi.setText(objectKu.var_tglTransaksi);
-                txtTglAmbil.setText(objectKu.var_tglAmbil);
-                txtTotal.setText(objectKu.var_total);
-                txtKeterangan.setText(objectKu.var_keterangan);
-                txtUnit.setText(objectKu.var_unit);
-            }
-            objectKu.loadDataTransaksi(tabelTransaksi, "SELECT * FROM Transaksi");
-        } catch (Exception e) {
-            
-        }
+        String kasir = jComboBoxKasir.getSelectedItem().toString().split(" - ")[0];
+        String konsumen = jComboBox2.getSelectedItem().toString().split(" - ")[0];
+        String paket = jComboBox3.getSelectedItem().toString().split(" - ")[0];
+        String pembayaran = jComboBox4.getSelectedItem().toString().split(" - ")[0];
+
+        objectKu.simpanTransaksiPRT(
+            txtTransaksi.getText(),
+            kasir,
+            paket,
+            konsumen,
+            pembayaran,
+            txtTglTransaksi.getText(),
+            txtTglAmbil.getText(),
+            txtTotal.getText(),
+            txtKeterangan.getText(),
+            txtDurasi.getText()
+        );
+
+        objectKu.loadDataTransaksi(tabelTransaksi);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void tabelTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelTransaksiMouseClicked
@@ -312,21 +428,45 @@ public class frameTransaksi extends javax.swing.JFrame {
         String pkt = tabelTransaksi.getValueAt(baris, 4).toString();
         String ktrg = tabelTransaksi.getValueAt(baris, 5).toString();
         String byr = tabelTransaksi.getValueAt(baris, 6).toString();
-        String unit = tabelTransaksi.getValueAt(baris, 7).toString();
+        String durasi = tabelTransaksi.getValueAt(baris, 7).toString();
         String total = tabelTransaksi.getValueAt(baris, 8).toString();
         String tgl_amb = tabelTransaksi.getValueAt(baris, 9).toString();
         
         txtTransaksi.setText(id_trs);
-        txtKasir.setText(ksr);
-        txtPaket.setText(pkt);
-        txtKonsumen.setText(kns);
-        txtPembayaran.setText(byr);
+        for (int i = 0; i < jComboBoxKasir.getItemCount(); i++) {
+        if (jComboBoxKasir.getItemAt(i).startsWith(ksr)) {
+            jComboBoxKasir.setSelectedIndex(i);
+            break;
+        }
+    }
+
+        for (int i = 0; i < jComboBox2.getItemCount(); i++) {
+    if (jComboBox2.getItemAt(i).startsWith(kns)) {
+        jComboBox2.setSelectedIndex(i);
+        break;
+    }
+}
+
+        for (int i = 0; i < jComboBox3.getItemCount(); i++) {
+    if (jComboBox3.getItemAt(i).startsWith(pkt)) {
+        jComboBox3.setSelectedIndex(i);
+        break;
+    }
+}
+
+        for (int i = 0; i < jComboBox4.getItemCount(); i++) {
+    if (jComboBox4.getItemAt(i).startsWith(byr)) {
+        jComboBox4.setSelectedIndex(i);
+        break;
+    }
+}
+
         txtTglTransaksi.setText(tgl_trs);
-        txtTglAmbil.setText(tgl_amb);
-        txtTotal.setText(total);
         txtKeterangan.setText(ktrg);
-        txtUnit.setText(unit);
-        objectKu.loadDataTransaksi(tabelTransaksi, "SELECT * FROM Transaksi");
+        txtDurasi.setText(durasi);
+        txtTotal.setText(total);
+        txtTglAmbil.setText(tgl_amb);
+        objectKu.loadDataTransaksi(tabelTransaksi);
     }//GEN-LAST:event_tabelTransaksiMouseClicked
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
@@ -334,30 +474,34 @@ public class frameTransaksi extends javax.swing.JFrame {
         try {
             if (
                 txtTransaksi.getText().isEmpty() ||
-                txtKasir.getText().isEmpty() ||
-                txtPaket.getText().isEmpty() ||
-                txtKonsumen.getText().isEmpty() ||
-                txtPembayaran.getText().isEmpty() ||
+                jComboBoxKasir.getSelectedItem() == null ||
+                jComboBox2.getSelectedItem() == null ||
+                jComboBox3.getSelectedItem() == null ||
+                jComboBox4.getSelectedItem() == null ||
                 txtTglTransaksi.getText().isEmpty() ||
                 txtTglAmbil.getText().isEmpty() ||
                 txtTotal.getText().isEmpty() ||
                 txtKeterangan.getText().isEmpty() ||
-                txtUnit.getText().isEmpty()
+              txtDurasi.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelTransaksi.requestFocus();
         } else {
+                String kasir = jComboBoxKasir.getSelectedItem().toString().split(" - ")[0];
+                String konsumen = jComboBox2.getSelectedItem().toString().split(" - ")[0];
+                String paket = jComboBox3.getSelectedItem().toString().split(" - ")[0];
+                String pembayaran = jComboBox4.getSelectedItem().toString().split(" - ")[0];
                 objectKu.ubahTransaksiPRS(txtTransaksi.getText(), 
-                txtKasir.getText(),
-                txtPaket.getText(),
-                txtKonsumen.getText(),
-                txtPembayaran.getText(),
+                kasir,
+                paket,
+                konsumen,
+                pembayaran,
                 txtTglTransaksi.getText(),
                 txtTglAmbil.getText(),
                 txtTotal.getText(),
                 txtKeterangan.getText(),
-                txtUnit.getText());
-                objectKu.loadDataTransaksi(tabelTransaksi, "SELECT * FROM Transaksi");
+              txtDurasi.getText());
+                objectKu.loadDataTransaksi(tabelTransaksi);
         }
         } catch (Exception e) {
         }
@@ -368,31 +512,31 @@ public class frameTransaksi extends javax.swing.JFrame {
         try {
             if (
                 txtTransaksi.getText().isEmpty() ||
-                txtKasir.getText().isEmpty() ||
-                txtPaket.getText().isEmpty() ||
-                txtKonsumen.getText().isEmpty() ||
-                txtPembayaran.getText().isEmpty() ||
+                jComboBoxKasir.getSelectedItem() == null ||
+                jComboBox2.getSelectedItem() == null ||
+                jComboBox3.getSelectedItem() == null ||
+                jComboBox4.getSelectedItem() == null ||
                 txtTglTransaksi.getText().isEmpty() ||
                 txtTglAmbil.getText().isEmpty() ||
                 txtTotal.getText().isEmpty() ||
                 txtKeterangan.getText().isEmpty() ||
-                txtUnit.getText().isEmpty()
+              txtDurasi.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelTransaksi.requestFocus();
         } else {
                 objectKu.hapusTransaksiPRT(txtTransaksi.getText());
                 txtTransaksi.setText(null);
-                txtKasir.setText(null);
-                txtPaket.setText(null);
-                txtKonsumen.setText(null);
-                txtPembayaran.setText(null);
+                jComboBoxKasir.setSelectedItem(null);
+                jComboBox2.setSelectedItem(null);
+                jComboBox3.setSelectedItem(null);
+                jComboBox4.setSelectedItem(null);
                 txtTglTransaksi.setText(null);
                 txtTglAmbil.setText(null);
                 txtTotal.setText(null);
                 txtKeterangan.setText(null);
-                txtUnit.setText(null);
-                objectKu.loadDataTransaksi(tabelTransaksi, "SELECT * FROM Transaksi");
+              txtDurasi.setText(null);
+                objectKu.loadDataTransaksi(tabelTransaksi);
         }
         } catch (Exception e) {
         }
@@ -400,16 +544,80 @@ public class frameTransaksi extends javax.swing.JFrame {
 
     private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
         // TODO add your handling code here:
-        try {
-            String c = txtCari.getText();
-            String cari = "SELECT * FROM Transaksi WHERE id_Transaksi like '%%"+c+"'"+
-                    "or kasir like '%%"+c+"' or paket like '%%"+c+"' or konsumen like '%%"+c+"' or pembayaran like '%%"+c+"'"+
-                    "or tgl_transaksi like '%%"+c+"' or tgl_ambil like '%%"+c+"' or total like '%%"+c+"' or keterangan like '%%"+c+"' or unit like '%%"+c+"'";
-            objectKu.loadDataTransaksi(tabelTransaksi, cari);
-        } catch (Exception e) {
-            System.out.println("form.frameTransaksi.txtCariKeyReleased()");
+        String keyword = txtCari.getText();
+
+        if (keyword.isEmpty()) {
+            objectKu.loadDataTransaksi(tabelTransaksi);
+        } else {
+            objectKu.cariTransaksi(tabelTransaksi, keyword);
         }
     }//GEN-LAST:event_txtCariKeyReleased
+
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        // TODO add your handling code here:
+        String sql = """
+    SELECT
+        t.id_transaksi,
+        k.nama AS nama_kasir,
+        t.tgl_transaksi,
+        ks.nama AS nama_konsumen,
+        p.nama AS nama_paket,
+        t.keterangan,
+        pb.jenis_pembayaran,
+        t.durasi,
+        t.total,
+        t.tgl_ambil
+    FROM transaksi t
+    LEFT JOIN kasir k ON t.kasir = k.id_kasir
+    LEFT JOIN konsumen ks ON t.konsumen = ks.id_konsumen
+    LEFT JOIN paket p ON t.paket = p.id_paket
+    LEFT JOIN pembayaran pb ON t.pembayaran = pb.id_pembayaran
+""";
+
+objectKu.cetakLaporan(
+    "/laporan/laporanTransaksi.jrxml",
+    sql
+);
+
+    }//GEN-LAST:event_btnCetakActionPerformed
+
+    private void jComboBoxKasirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKasirActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBoxKasirActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+        if (jComboBox3.getSelectedItem() == null) {
+        return;
+    }
+
+    if (jComboBox3.getSelectedIndex() == 0) {
+        txtDurasi.setText("");
+        txtTotal.setText("");
+        return;
+    }
+
+    // ambil ID paket (sebelum " - ")
+    String item = jComboBox3.getSelectedItem().toString();
+    String idPaket = item.split(" - ")[0];
+
+    try {
+        String sql = "SELECT harga, durasi FROM paket WHERE id_paket = '"+idPaket+"'";
+        ResultSet rs = objectKu.ambilData(sql);
+
+        if (rs.next()) {
+            txtDurasi.setText(rs.getString("durasi"));
+            txtTotal.setText(rs.getString("harga"));
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void txtCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -447,10 +655,15 @@ public class frameTransaksi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBoxKasir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -464,15 +677,11 @@ public class frameTransaksi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelTransaksi;
     private javax.swing.JTextField txtCari;
-    private javax.swing.JTextField txtKasir;
+    private javax.swing.JTextField txtDurasi;
     private javax.swing.JTextField txtKeterangan;
-    private javax.swing.JTextField txtKonsumen;
-    private javax.swing.JTextField txtPaket;
-    private javax.swing.JTextField txtPembayaran;
     private javax.swing.JTextField txtTglAmbil;
     private javax.swing.JTextField txtTglTransaksi;
     private javax.swing.JTextField txtTotal;
     private javax.swing.JTextField txtTransaksi;
-    private javax.swing.JTextField txtUnit;
     // End of variables declaration//GEN-END:variables
 }

@@ -50,14 +50,13 @@ public class framePaket extends javax.swing.JFrame {
         txtHarga = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtDurasi = new javax.swing.JTextField();
-        txtUnit = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelPaket = new javax.swing.JTable();
         txtCari = new javax.swing.JTextField();
+        btnCetak = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -88,8 +87,6 @@ public class framePaket extends javax.swing.JFrame {
 
         jLabel4.setText("Durasi");
 
-        jLabel5.setText("Unit");
-
         btnSimpan.setText("Simpan");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,13 +110,13 @@ public class framePaket extends javax.swing.JFrame {
 
         tabelPaket.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID Paket", "Nama", "Harga", "Durasi", "Unit"
+                "ID Paket", "Nama", "Harga", "Durasi"
             }
         ));
         tabelPaket.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -129,9 +126,21 @@ public class framePaket extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabelPaket);
 
+        txtCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariActionPerformed(evt);
+            }
+        });
         txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCariKeyReleased(evt);
+            }
+        });
+
+        btnCetak.setText("Cetak");
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakActionPerformed(evt);
             }
         });
 
@@ -142,11 +151,13 @@ public class framePaket extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnSimpan)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUbah)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnHapus)
-                .addGap(39, 39, 39))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCetak)
+                .addGap(17, 17, 17))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txtCari)
@@ -160,10 +171,6 @@ public class framePaket extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtPaket, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -202,15 +209,12 @@ public class framePaket extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDurasi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSimpan)
                     .addComponent(btnUbah)
-                    .addComponent(btnHapus))
+                    .addComponent(btnHapus)
+                    .addComponent(btnCetak))
                 .addGap(12, 12, 12)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -231,14 +235,12 @@ public class framePaket extends javax.swing.JFrame {
             objectKu.simpanPaketPRT(txtPaket.getText(),
                 txtNama.getText(),
                 txtHarga.getText(),
-                txtDurasi.getText(),
-                txtUnit.getText());
+                txtDurasi.getText());
             if (objectKu.validasi){
                 txtNama.setText(objectKu.var_nama);
                 txtHarga.setText(objectKu.var_harga);
                 txtDurasi.setText(objectKu.var_durasi);
-                txtUnit.setText(objectKu.var_unit);
-            }
+            };
             objectKu.loadDataPaket(tabelPaket, "SELECT * FROM paket");
         } catch (Exception e) {
             
@@ -252,13 +254,11 @@ public class framePaket extends javax.swing.JFrame {
         String nama = tabelPaket.getValueAt(baris, 1).toString();
         String harga = tabelPaket.getValueAt(baris, 2).toString();
         String durasi = tabelPaket.getValueAt(baris, 3).toString();
-        String unit = tabelPaket.getValueAt(baris, 4).toString();
         
         txtPaket.setText(id);
         txtNama.setText(nama);
         txtHarga.setText(harga);
         txtDurasi.setText(durasi);
-        txtUnit.setText(unit);
         objectKu.loadDataPaket(tabelPaket, "SELECT * FROM paket");
     }//GEN-LAST:event_tabelPaketMouseClicked
 
@@ -269,8 +269,7 @@ public class framePaket extends javax.swing.JFrame {
                 txtPaket.getText().isEmpty() ||
                 txtNama.getText().isEmpty() ||
                 txtHarga.getText().isEmpty() ||
-                txtDurasi.getText().isEmpty() ||
-                txtUnit.getText().isEmpty()
+                txtDurasi.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelPaket.requestFocus();
@@ -278,8 +277,7 @@ public class framePaket extends javax.swing.JFrame {
                 objectKu.ubahPaketPRS(txtPaket.getText(), 
                 txtNama.getText(), 
                 txtHarga.getText(), 
-                txtDurasi.getText(),
-                txtUnit.getText());
+                txtDurasi.getText());
                 objectKu.loadDataPaket(tabelPaket, "SELECT * FROM paket");
         }
         } catch (Exception e) {
@@ -293,8 +291,7 @@ public class framePaket extends javax.swing.JFrame {
                 txtPaket.getText().isEmpty() ||
                 txtNama.getText().isEmpty() ||
                 txtHarga.getText().isEmpty() ||
-                txtDurasi.getText().isEmpty() ||
-                txtUnit.getText().isEmpty()
+                txtDurasi.getText().isEmpty()
                         ) {
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Data Terlabih Dahulu");
             tabelPaket.requestFocus();
@@ -304,7 +301,6 @@ public class framePaket extends javax.swing.JFrame {
                 txtNama.setText(null);
                 txtHarga.setText(null);
                 txtDurasi.setText(null);
-                txtUnit.setText(null);
                 objectKu.loadDataPaket(tabelPaket, "SELECT * FROM paket");
         }
         } catch (Exception e) {
@@ -316,12 +312,21 @@ public class framePaket extends javax.swing.JFrame {
         try {
             String c = txtCari.getText();
             String cari = "SELECT * FROM paket WHERE id_paket like '%%"+c+"' "+
-                    "or nama like '%%"+c+"' or harga like '%%"+c+"' or durasi like '%%"+c+"' or unit like '%%"+c+"'";
+                    "or nama like '%%"+c+"' or harga like '%%"+c+"' or durasi like '%%"+c+"'";
             objectKu.loadDataPaket(tabelPaket, cari);
         } catch (Exception e) {
             System.out.println("form.framePaket.txtCariKeyReleased()");
         }
     }//GEN-LAST:event_txtCariKeyReleased
+
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        // TODO add your handling code here:
+        objectKu.cetakLaporan("/laporan/laporanPaket.jrxml", "SELECT id_paket, nama, harga, durasi FROM paket");
+    }//GEN-LAST:event_btnCetakActionPerformed
+
+    private void txtCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -359,6 +364,7 @@ public class framePaket extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
@@ -366,7 +372,6 @@ public class framePaket extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
@@ -376,7 +381,6 @@ public class framePaket extends javax.swing.JFrame {
     private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtPaket;
-    private javax.swing.JTextField txtUnit;
     // End of variables declaration//GEN-END:variables
 
 }

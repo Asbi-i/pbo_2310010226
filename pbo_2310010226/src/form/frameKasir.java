@@ -52,6 +52,7 @@ public class frameKasir extends javax.swing.JFrame {
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
+        btnCetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,6 +109,13 @@ public class frameKasir extends javax.swing.JFrame {
             }
         });
 
+        btnCetak.setText("Cetak");
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,12 +143,14 @@ public class frameKasir extends javax.swing.JFrame {
                         .addGap(0, 43, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
+                .addGap(34, 34, 34)
                 .addComponent(btnSimpan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUbah)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnHapus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCetak)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -166,7 +176,8 @@ public class frameKasir extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimpan)
                     .addComponent(btnUbah)
-                    .addComponent(btnHapus))
+                    .addComponent(btnHapus)
+                    .addComponent(btnCetak))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -212,8 +223,9 @@ public class frameKasir extends javax.swing.JFrame {
                 txtLevel.setText(null);
                 txtNama.setText(null);
                 txtPassword.setText(null);
-                objectKu.loadDataKasir(tabelKasir, "SELECT * FROM Kasir");
+                
         }
+            objectKu.loadDataKasir(tabelKasir, "SELECT * FROM Kasir");
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnHapusActionPerformed
@@ -234,8 +246,8 @@ public class frameKasir extends javax.swing.JFrame {
                 txtLevel.getText(),
                 txtNama.getText(), 
                 txtPassword.getText());
-                objectKu.loadDataKasir(tabelKasir, "SELECT * FROM Kasir");
         }
+            objectKu.loadDataKasir(tabelKasir, "SELECT * FROM Kasir");
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnUbahActionPerformed
@@ -266,6 +278,11 @@ public class frameKasir extends javax.swing.JFrame {
         txtPassword.setText(password);
         objectKu.loadDataKasir(tabelKasir, "SELECT * FROM Kasir");
     }//GEN-LAST:event_tabelKasirMouseClicked
+
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        // TODO add your handling code here:
+        objectKu.cetakLaporan("/laporan/laporanKasir.jrxml", "SELECT * FROM kasir");
+    }//GEN-LAST:event_btnCetakActionPerformed
 
     /**
      * @param args the command line arguments
@@ -303,6 +320,7 @@ public class frameKasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;

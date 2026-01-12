@@ -16,6 +16,7 @@ public class Pbo_2310010226 {
     public static void main(String[] args) {
         // TODO code application logic here
         new frameLogin().setVisible(true);
+
     }
     
 }
