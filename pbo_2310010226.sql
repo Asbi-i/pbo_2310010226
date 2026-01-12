@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Nov 2025 pada 05.43
+-- Waktu pembuatan: 12 Jan 2026 pada 16.25
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -39,9 +39,8 @@ CREATE TABLE `kasir` (
 --
 
 INSERT INTO `kasir` (`id_kasir`, `level`, `nama`, `password`) VALUES
-('1', 'Admin', 'asbi', '123'),
-('2', 'HRD', 'admin', '123'),
-('3', 'Admin', 'Rizky', '123');
+('1', 'Owner', 'admin', '123'),
+('2', 'Pegawai', 'asbi', '123');
 
 -- --------------------------------------------------------
 
@@ -74,17 +73,19 @@ CREATE TABLE `paket` (
   `id_paket` varchar(15) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `harga` int(11) NOT NULL,
-  `durasi` varchar(20) NOT NULL,
-  `unit` varchar(10) DEFAULT NULL
+  `durasi` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `paket`
 --
 
-INSERT INTO `paket` (`id_paket`, `nama`, `harga`, `durasi`, `unit`) VALUES
-('1', 'Asbi', 40000, '1 Jam', '5 Kardus'),
-('2', 'Putu', 100000, '3 Jam', '10 Pack');
+INSERT INTO `paket` (`id_paket`, `nama`, `harga`, `durasi`) VALUES
+('1', 'Cuci Reguler 30 Menit', 15000, '30 Menit'),
+('2', 'Cuci Reguler 60 Menit', 25000, '60 Menit'),
+('3', 'Pengering 30 Menit', 10000, '30 Menit'),
+('4', 'Cuci + Kering 60 Menit', 30000, '60 Menit'),
+('5', 'Cuci + Kering Jumbo 90 Menit', 45000, '90 Menit');
 
 -- --------------------------------------------------------
 
@@ -95,17 +96,18 @@ INSERT INTO `paket` (`id_paket`, `nama`, `harga`, `durasi`, `unit`) VALUES
 CREATE TABLE `pembayaran` (
   `id_pembayaran` varchar(20) NOT NULL,
   `jenis_pembayaran` varchar(30) NOT NULL,
-  `rekening_pembayaran` varchar(50) DEFAULT NULL
+  `tipe` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `pembayaran`
 --
 
-INSERT INTO `pembayaran` (`id_pembayaran`, `jenis_pembayaran`, `rekening_pembayaran`) VALUES
-('1', 'Dana', '08917283'),
-('2', 'OVO', '12345'),
-('3', 'GoPay', '54321');
+INSERT INTO `pembayaran` (`id_pembayaran`, `jenis_pembayaran`, `tipe`) VALUES
+('1', 'Dana', 'Non Tunai'),
+('2', 'OVO', 'Non Tunai'),
+('3', 'GoPay', 'Non Tunai'),
+('4', 'Cash', 'Tunai');
 
 -- --------------------------------------------------------
 
@@ -121,8 +123,8 @@ CREATE TABLE `transaksi` (
   `paket` varchar(15) NOT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
   `pembayaran` varchar(20) NOT NULL,
-  `unit` varchar(10) DEFAULT NULL,
-  `total` int(11) NOT NULL,
+  `durasi` varchar(10) DEFAULT NULL,
+  `total` varchar(11) NOT NULL,
   `tgl_ambil` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -130,9 +132,9 @@ CREATE TABLE `transaksi` (
 -- Dumping data untuk tabel `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `kasir`, `tgl_transaksi`, `konsumen`, `paket`, `keterangan`, `pembayaran`, `unit`, `total`, `tgl_ambil`) VALUES
-('1', 'Asbi', '12 Okt 2025', 'Rizky', 'Bed Cover', 'Warna Kuning', 'Dana', '2', 50000, '14 Okt 2025'),
-('2', 'Putu', '3 Okt 2025', 'Nabil', 'Dry Clean', 'Baju Merah', 'GoPay', '2', 20000, '5 Okt 2025');
+INSERT INTO `transaksi` (`id_transaksi`, `kasir`, `tgl_transaksi`, `konsumen`, `paket`, `keterangan`, `pembayaran`, `durasi`, `total`, `tgl_ambil`) VALUES
+('1', '2', '1 Januari 2026', '2', '1', 'Mesin 1', '1', '30 Menit', '15000', '1 Januari 2026'),
+('2', '1', '2', '2', '2', '2', '1', '60 Menit', '25000', '2');
 
 --
 -- Indexes for dumped tables
@@ -166,7 +168,24 @@ ALTER TABLE `pembayaran`
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id_transaksi`);
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `fk_transaksi_kasir` (`kasir`),
+  ADD KEY `fk_transaksi_konsumen` (`konsumen`),
+  ADD KEY `fk_transaksi_paket` (`paket`),
+  ADD KEY `fk_transaksi_pembayaran` (`pembayaran`);
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `fk_transaksi_kasir` FOREIGN KEY (`kasir`) REFERENCES `kasir` (`id_kasir`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transaksi_konsumen` FOREIGN KEY (`konsumen`) REFERENCES `konsumen` (`id_konsumen`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transaksi_paket` FOREIGN KEY (`paket`) REFERENCES `paket` (`id_paket`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transaksi_pembayaran` FOREIGN KEY (`pembayaran`) REFERENCES `pembayaran` (`id_pembayaran`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
